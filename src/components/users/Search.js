@@ -1,19 +1,25 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export class Search extends Component {
 	state = {
 		text: '',
 	};
 
-  onSubmit = (e) => {
-    e.preventDefault();
-    console.log(this.state.text);
-  }
+	static propTypes = {
+		searchUsers: PropTypes.func.isRequired
+	};
 
-  onChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value})
-  } 
-  // deze onChnge maakt dat er kan geschreven worden in de search component
+	onSubmit = e => {
+		e.preventDefault();
+		this.props.searchUsers(this.state.text);
+		this.setState({ text: '' });
+	};
+
+	onChange = e => {
+		this.setState({ [e.target.name]: e.target.value });
+	};
+	// deze onChnge maakt dat er kan geschreven worden in de search component
 
 	render() {
 		return (
@@ -24,7 +30,7 @@ export class Search extends Component {
 						name='text'
 						placeholder='search Users...'
 						value={this.state.text}
-            onChange={this.onChange}
+						onChange={this.onChange}
 					/>
 					<input
 						type='submit'
